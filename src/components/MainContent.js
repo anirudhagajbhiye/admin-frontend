@@ -11,9 +11,8 @@ import Layout from "../Layout";
 const MainContent = () => {
   return (
     <>
-
       <Routes>
-        <Route path="/" element={<Layout/>}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<UserList />} />
           <Route path="new-user" element={<NewUser />} />
           <Route path="edit-user" element={<EditUser />} />
