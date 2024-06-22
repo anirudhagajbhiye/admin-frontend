@@ -32,25 +32,52 @@ function UserList() {
             <th>Created</th>
             <th>Modified</th>
             <th>Edit</th>
+            <th>Delete</th>
           </tr>
 
-          {users.map((user) => {
-            return (
-              <tr>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>{user.password}</td>
-                <td>{user.email}</td>
-                <td>{user.first_name}</td>
-                <td>{user.last_name}</td>
-                <td>{user.created}</td>
-                <td>{user.modified}</td>
-                <td>
-                  <Link to={`/edit-user?id=${user.id}`}>Edit-User</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {users &&
+            users.map((user) => {
+              return (
+                <tr>
+                  <td>{user.id}</td>
+                  <td>{user.username}</td>
+                  <td>{user.password}</td>
+                  <td>{user.email}</td>
+                  <td>{user.first_name}</td>
+                  <td>{user.last_name}</td>
+                  <td>{user.created}</td>
+                  <td>{user.modified}</td>
+                  <td>
+                    <Link to={`/edit-user?id=${user.id}`}>Edit-User</Link>
+                  </td>
+                  <td>
+                    <button
+                      onClick={async ({}) => {
+                        console.log(user.id);
+
+                        const requestOptions = {
+                          method: "DELETE",
+                          headers: { "Content-Type": "application/json" },
+                        };
+
+                        const response = await fetch(
+                          `http://localhost:3001/users/${user.id}`,
+                          requestOptions
+                        );
+
+                        const responseJSON = await response.json();
+
+                        console.log(responseJSON);
+                        loadData();
+                      }}
+                    >
+                      {" "}
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
         </table>
       </div>
     </>

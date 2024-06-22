@@ -48,6 +48,7 @@ const NewUser = () => {
 
           const responseJSON = await response.json();
           console.log("data entered", responseJSON);
+          window.location.replace("http://localhost:3000/user-list");
         }}
       >
         <label for="username">Username: </label>
