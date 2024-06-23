@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styles from "./user-list.module.css";
 import { Link } from "react-router-dom";
+import Table from "react-bootstrap/Table";
+import { Button } from "react-bootstrap";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -20,9 +21,9 @@ function UserList() {
     <>
       <h1>I am user list</h1>
       <Link to="/new-user">NewUser</Link>
-      <div style={{ overflowX: "auto" }}>
-        <table>
-          <tr>
+      <Table striped bordered hover variant="dark" responsive>
+        <tr>
+          <thead>
             <th>ID</th>
             <th>Username</th>
             <th>Password</th>
@@ -33,53 +34,56 @@ function UserList() {
             <th>Modified</th>
             <th>Edit</th>
             <th>Delete</th>
-          </tr>
+          </thead>
 
-          {users &&
-            users.map((user) => {
-              return (
-                <tr>
-                  <td>{user.id}</td>
-                  <td>{user.username}</td>
-                  <td>{user.password}</td>
-                  <td>{user.email}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.created}</td>
-                  <td>{user.modified}</td>
-                  <td>
-                    <Link to={`/edit-user?id=${user.id}`}>Edit-User</Link>
-                  </td>
-                  <td>
-                    <button
-                      onClick={async ({}) => {
-                        console.log(user.id);
+          <tbody>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr>
+                    <td>{user.id}</td>
+                    <td>{user.username}</td>
+                    <td>{user.password}</td>
+                    <td>{user.email}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.last_name}</td>
+                    <td>{user.created}</td>
+                    <td>{user.modified}</td>
+                    <td>
+                      <Link to={`/edit-user?id=${user.id}`}>Edit-User</Link>
+                    </td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={async ({}) => {
+                          console.log(user.id);
 
-                        const requestOptions = {
-                          method: "DELETE",
-                          headers: { "Content-Type": "application/json" },
-                        };
+                          const requestOptions = {
+                            method: "DELETE",
+                            headers: { "Content-Type": "application/json" },
+                          };
 
-                        const response = await fetch(
-                          `http://localhost:3001/users/${user.id}`,
-                          requestOptions
-                        );
+                          const response = await fetch(
+                            `http://localhost:3001/users/${user.id}`,
+                            requestOptions
+                          );
 
-                        const responseJSON = await response.json();
+                          const responseJSON = await response.json();
 
-                        console.log(responseJSON);
-                        loadData();
-                      }}
-                    >
-                      {" "}
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-        </table>
-      </div>
+                          console.log(responseJSON);
+                          loadData();
+                        }}
+                      >
+                        {" "}
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </tr>
+      </Table>
     </>
   );
 }
